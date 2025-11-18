@@ -4,7 +4,6 @@ import com.example.esimsdkkmp.domain.model.PhotoCard
 import com.example.esimsdkkmp.domain.model.toCardListItem
 import com.example.esimsdkkmp.BaseViewModel
 import com.example.esimsdkkmp.CardKit
-import com.example.esimsdkkmp.CardsUiState
 import com.example.esimsdkkmp.InMemoryPhotoStore
 import com.example.esimsdkkmp.ScanResult
 import com.example.esimsdkkmp.timeprovider.currentTimeMillis

@@ -1,4 +1,4 @@
-package com.example.esimsdkkmp
+package com.example.esimsdkkmp.presentation
 
 import com.example.esimsdkkmp.domain.model.CardListItem
 import com.example.esimsdkkmp.domain.model.PhotoCard

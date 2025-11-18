@@ -54,7 +54,7 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 // For CardsViewModel & other Android-specific bits
-                implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.4")
+                implementation(libs.androidx.lifecycle.viewmodel.ktx)
             }
         }
     }

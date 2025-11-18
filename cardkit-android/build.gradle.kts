@@ -14,7 +14,7 @@ version = "1.0.1"
 
 android {
     namespace = "com.example.cardkit_android"
-    compileSdk = 34
+    compileSdk = 36
 
     defaultConfig {
         minSdk = 24
@@ -39,7 +39,7 @@ android {
 
 dependencies {
     // This is your KMP Android artefact that exposes CardsViewModel etc.
-    api("com.example.esimsdkkmp:shared-android:1.0.1")
+    api(project(":shared"))
     api(libs.kotlinx.coroutines.core)
 
 }

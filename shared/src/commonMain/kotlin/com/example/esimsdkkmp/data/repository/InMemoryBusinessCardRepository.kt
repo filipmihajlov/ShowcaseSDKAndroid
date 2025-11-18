@@ -20,7 +20,6 @@ class InMemoryBusinessCardRepository : BusinessCardRepository {
             cards += card
         }
 
-        // 🔴 This line is critical: emit a *new list* so collectors see a change
         state.value = cards.toList()
     }
 
