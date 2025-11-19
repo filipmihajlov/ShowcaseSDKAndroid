@@ -52,14 +52,12 @@ dependencies {
 afterEvaluate {
     publishing {
         publications {
-            // Name of the publication inside this module (arbitrary)
-            create<MavenPublication>("cardkitRelease") {
-                // Now 'release' component exists thanks to android.publishing.singleVariant
+            create<MavenPublication>("release") {
                 from(components["release"])
 
-                groupId = project.group.toString()       // com.example.esimsdkkmp
-                artifactId = "cardkit-android"           // final coord: com.example.esimsdkkmp:cardkit-android:1.0.1
-                version = project.version.toString()     // 1.0.1
+                groupId = group.toString()
+                artifactId = "cardkit-android"
+                version = version.toString()
             }
         }
     }

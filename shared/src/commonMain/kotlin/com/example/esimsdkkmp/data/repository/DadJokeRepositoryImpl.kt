@@ -11,14 +11,18 @@ class DadJokeRepositoryImpl(
 ) : DadJokeRepository {
 
     override suspend fun getRandomJoke(): DadJoke {
-        val dto: HttpResponse<Joke> = api.getRandomJoke(
+        // 1) Call the generated API, get the wrapper
+        val response: HttpResponse<Joke> = api.getRandomJoke(
             accept = "application/json",
+//            userAgent = "esimsdkkmp-demo"
         )
 
+        // 2) Unwrap the Joke from the response
+        //    One of these will exist depending on the template version:
         return DadJoke(
-            id = dto.body().id,
-            text = dto.body().joke,
-            status = dto.status
-        )
+            id = response.body().id,
+            text = response.body().joke,
+            status = response.body().status,
+        )   // or response.data / response.payload
     }
 }
