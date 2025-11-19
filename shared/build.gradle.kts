@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
     id("maven-publish")
+    id("org.openapi.generator") version "7.6.0"
 }
 
 // Coordinates for ALL publications from this module
@@ -44,6 +45,7 @@ kotlin {
             dependencies {
                 implementation(libs.kotlinx.coroutines.core)
             }
+            kotlin.srcDir("$projectDir/build/openapi/src/commonMain/kotlin")
         }
         val commonTest by getting {
             dependencies {
@@ -90,4 +92,37 @@ publishing {
         groupId = project.group.toString()    // com.example.esimsdkkmp
         version = project.version.toString()  // 1.0.1
     }
+}
+
+openApiGenerate {
+    // 1) Where the YAML is
+    inputSpec.set("$projectDir/openapi/dadjoke.yaml")
+
+    // 2) Which generator
+    generatorName.set("kotlin")
+    library.set("multiplatform")
+
+    // 3) Where to put generated code
+    outputDir.set("$projectDir/build/openapi")
+
+    // 4) Packages
+    packageName.set("com.esimsdkkmp.jokes")
+    apiPackage.set("com.esimsdkkmp.jokes.api")
+    modelPackage.set("com.esimsdkkmp.jokes.model")
+
+    // 5) extra options
+    additionalProperties.set(
+        mapOf(
+            "serializationLibrary" to "kotlinx_serialization",
+            "dateLibrary" to "kotlinx-datetime"
+        )
+    )
+
+    // helpful for debugging
+    logToStderr.set(true)
+    validateSpec.set(true)
+}
+
+tasks.named("compileKotlinMetadata") {
+    dependsOn("openApiGenerate")
 }

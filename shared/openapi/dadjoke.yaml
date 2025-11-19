@@ -1,0 +1,46 @@
+openapi: 3.0.3
+info:
+  title: Dad Joke API (esimsdkkmp demo)
+  version: 1.0.0
+  description: Minimal spec for icanhazdadjoke.com used in the esimsdkkmp demo.
+
+servers:
+  - url: https://icanhazdadjoke.com
+
+paths:
+  /:
+    get:
+      summary: Fetch a random dad joke
+      operationId: getRandomJoke
+      parameters:
+        - in: header
+          name: Accept
+          required: false
+          description: Use application/json for JSON.
+          schema:
+            type: string
+            default: application/json
+      responses:
+        '200':
+          description: A random dad joke
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Joke'
+
+components:
+  schemas:
+    Joke:
+      type: object
+      properties:
+        id:
+          type: string
+        joke:
+          type: string
+        status:
+          type: integer
+          format: int32
+      required:
+        - id
+        - joke
+        - status
