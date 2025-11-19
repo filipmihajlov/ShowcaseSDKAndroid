@@ -15,7 +15,7 @@ actual class CameraController actual constructor() {
                 company = "Demo Co",
                 email = "filip+android@example.com",
                 phone = null,
-                website = null,
+                website = "www.google.com",
                 notes = "Created by Android CameraController",
                 imageRef = null,
             )
