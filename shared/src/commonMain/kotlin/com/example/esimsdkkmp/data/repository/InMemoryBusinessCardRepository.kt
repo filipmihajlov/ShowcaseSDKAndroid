@@ -1,5 +1,6 @@
 package com.example.esimsdkkmp.data.repository
 
+import com.example.esimsdkkmp.domain.BusinessCardRepository
 import com.example.esimsdkkmp.domain.model.BusinessCard
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow

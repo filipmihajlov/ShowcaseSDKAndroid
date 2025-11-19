@@ -1,4 +1,4 @@
-package com.example.esimsdkkmp.data.repository
+package com.example.esimsdkkmp.domain
 
 import com.example.esimsdkkmp.domain.model.BusinessCard
 import kotlinx.coroutines.flow.Flow

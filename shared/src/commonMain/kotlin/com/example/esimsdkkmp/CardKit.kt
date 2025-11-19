@@ -2,7 +2,7 @@ package com.example.esimsdkkmp
 
 import com.example.esimsdkkmp.domain.model.BusinessCard
 import com.example.esimsdkkmp.domain.model.BusinessCardDraft
-import com.example.esimsdkkmp.data.repository.BusinessCardRepository
+import com.example.esimsdkkmp.domain.BusinessCardRepository
 import com.example.esimsdkkmp.timeprovider.currentTimeMillis
 import kotlinx.coroutines.flow.Flow
 import kotlin.random.Random
