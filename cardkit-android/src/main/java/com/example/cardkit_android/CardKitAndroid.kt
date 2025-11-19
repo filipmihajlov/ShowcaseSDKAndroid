@@ -49,6 +49,7 @@ private fun BusinessCard.toSdkCard() =
         title = fullName.ifBlank { "Unknown" },
         subtitle = company,
         primaryContact = email ?: phone,
+        website = website,
         createdAtMillis = createdAtMillis,
         imageRef = imageRef?.raw,
     )
