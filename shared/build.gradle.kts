@@ -16,9 +16,8 @@ group = "com.example.esimsdkkmp"
 version = "1.0.1"
 
 kotlin {
-    // Android target for CardsViewModel, repositories, etc.
+    // Android target
     androidTarget {
-        // Ensure an Android-only artifact exists: shared-android
         publishLibraryVariants("release")
 
         compilerOptions {
@@ -26,15 +25,19 @@ kotlin {
         }
     }
 
-    // iOS frameworks / XCFramework
+    // iOS + XCFramework
     val xcFramework = XCFramework("CardKitShared")
 
+    // Keep references to the iOS targets so we can attach their source sets later
+    val iosArm64Target = iosArm64()
+    val iosSimArm64Target = iosSimulatorArm64()
+
     listOf(
-        iosArm64(),
-        iosSimulatorArm64()
+        iosArm64Target,
+        iosSimArm64Target
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            baseName = "CardKitShared"   // what the iOS integrator will see
+            baseName = "CardKitShared"
             isStatic = true
             xcFramework.add(this)
         }
@@ -44,9 +47,16 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(libs.kotlinx.coroutines.core)
+                implementation("io.ktor:ktor-client-core:2.3.12")
+                implementation("io.ktor:ktor-client-content-negotiation:2.3.12")
+                implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.12")
+
+                // kotlinx.serialization JSON
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
             }
             kotlin.srcDir("$projectDir/build/openapi/src/commonMain/kotlin")
         }
+
         val commonTest by getting {
             dependencies {
                 implementation(libs.kotlin.test)
@@ -55,12 +65,28 @@ kotlin {
 
         val androidMain by getting {
             dependencies {
-                // For CardsViewModel & other Android-specific bits
                 implementation(libs.androidx.lifecycle.viewmodel.ktx)
+                implementation("io.ktor:ktor-client-android:2.3.12")
+            }
+        }
+
+        // These actually exist because you called iosArm64() and iosSimulatorArm64()
+        val iosArm64Main by getting
+        val iosSimulatorArm64Main by getting
+
+        // Create a shared iOS source set that both iOS targets depend on
+        val iosMain by creating {
+            dependsOn(commonMain)
+            iosArm64Main.dependsOn(this)
+            iosSimulatorArm64Main.dependsOn(this)
+
+            dependencies {
+                implementation("io.ktor:ktor-client-darwin:2.3.12")
             }
         }
     }
 }
+
 
 android {
     namespace = "com.example.esimsdkkmp.shared"
@@ -113,7 +139,7 @@ openApiGenerate {
     // 5) extra options
     additionalProperties.set(
         mapOf(
-            "serializationLibrary" to "kotlinx_serialization",
+            "library" to "multiplatform",
             "dateLibrary" to "kotlinx-datetime"
         )
     )
