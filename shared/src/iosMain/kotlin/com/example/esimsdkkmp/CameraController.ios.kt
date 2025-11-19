@@ -10,7 +10,7 @@ actual class CameraController actual constructor() {
             company = "Demo Co iOS",
             email = "filip+ios@example.com",
             phone = null,
-            website = null,
+            website = "www.google.com",
             notes = "Created by iOS CameraController (fake)",
             imageRef = null,
         )

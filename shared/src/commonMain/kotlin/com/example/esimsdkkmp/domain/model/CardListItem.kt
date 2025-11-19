@@ -5,6 +5,7 @@ data class CardListItem(
     val title: String,
     val subtitle: String?,
     val primaryContact: String?,
+    val website: String?,
     val createdAtMillis: Long,
     val imageRef: String?,
 )
@@ -18,6 +19,7 @@ fun BusinessCard.toCardListItem(): CardListItem =
         title = fullName.ifBlank { "Unknown" },
         subtitle = company,
         primaryContact = email ?: phone,
+        website = website,
         createdAtMillis = createdAtMillis,
         imageRef = imageRef?.raw,
     )
