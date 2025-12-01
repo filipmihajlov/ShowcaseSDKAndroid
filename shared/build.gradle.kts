@@ -125,24 +125,19 @@ publishing {
 }
 
 openApiGenerate {
-    // 1) Where the YAML is
     inputSpec.set("$projectDir/openapi/dadjoke.yaml")
 
-    // 2) Kotlin MPP client
     generatorName.set("kotlin")
     library.set("multiplatform")
 
-    // 3) Packages (must match your imports like com.esimsdkkmp.jokes.api.DefaultApi)
     packageName.set("com.esimsdkkmp.jokes")
     apiPackage.set("com.esimsdkkmp.jokes.api")
     modelPackage.set("com.esimsdkkmp.jokes.model")
     invokerPackage.set("com.esimsdkkmp.jokes.invoker")
 
-    // 4) Where code is generated
-    // Resulting path: shared/build/generated/openapi/src/commonMain/kotlin/...
+
     outputDir.set("$buildDir/generated/openapi")
 
-    // 5) Minimal config to avoid double @Serializable
     configOptions.set(
         mapOf(
             "dateLibrary" to "kotlinx-datetime"

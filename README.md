@@ -1,39 +1,94 @@
-This is a Kotlin Multiplatform project targeting Android, iOS.
+# Kotlin Multiplatform SDK Demo
 
-* [/composeApp](./composeApp/src) is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - [commonMain](./composeApp/src/commonMain/kotlin) is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    the [iosMain](./composeApp/src/iosMain/kotlin) folder would be the right place for such calls.
-    Similarly, if you want to edit the Desktop (JVM) specific part, the [jvmMain](./composeApp/src/jvmMain/kotlin)
-    folder is the appropriate location.
+This repository contains a **Kotlin Multiplatform SDK** with sample Android and iOS applications.
 
-* [/iosApp](./iosApp/iosApp) contains iOS applications. Even if you’re sharing your UI with Compose Multiplatform,
-  you need this entry point for your iOS app. This is also where you should add SwiftUI code for your project.
+The project demonstrates how to:
 
-* [/shared](./shared/src) is for the code that will be shared between all targets in the project.
-  The most important subfolder is [commonMain](./shared/src/commonMain/kotlin). If preferred, you
-  can add code to the platform-specific folders here too.
-
-### Build and Run Android Application
-
-To build and run the development version of the Android app, use the run configuration from the run widget
-in your IDE’s toolbar or build it directly from the terminal:
-- on macOS/Linux
-  ```shell
-  ./gradlew :composeApp:assembleDebug
-  ```
-- on Windows
-  ```shell
-  .\gradlew.bat :composeApp:assembleDebug
-  ```
-
-### Build and Run iOS Application
-
-To build and run the development version of the iOS app, use the run configuration from the run widget
-in your IDE’s toolbar or open the [/iosApp](./iosApp) directory in Xcode and run it from there.
+- Share business logic between Android and iOS.
+- Expose a clear SDK API surface for host apps.
+- Provide ready-made UI flows on Android (and SwiftUI integration on iOS).
+- Use modern multiplatform tooling in a way that is suitable for real products.
 
 ---
 
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)…
+## What the SDK Demonstrates
+
+### Kotlin Multiplatform architecture
+
+- Shared domain and data layer in `commonMain`.
+- Platform-specific implementations (storage, logging, networking details) per target.
+- Clear separation between:
+    - **Public SDK API** (what host apps use).
+    - **Internal implementation details**.
+
+### Android & iOS integration
+
+#### Android
+
+- SDK consumed as a standard Gradle module.
+- Jetpack Compose UI that connects to the shared logic.
+
+#### iOS
+
+- SDK exported as a Kotlin/Native framework.
+- Swift-friendly wrappers and SwiftUI screens that use the shared code.
+
+### SDK usage model
+
+- Host app owns **authentication**, **navigation** and **theming**.
+- SDK exposes:
+    - Public functions and models.
+    - State / flows that can be bound to the host app’s UI.
+- Sample screens show how a host app can embed SDK-provided functionality.
+
+---
+
+## Project Structure
+
+This is a Kotlin Multiplatform project targeting **Android** and **iOS**.
+
+### `/composeApp`
+
+`/composeApp` contains the **Android app** and any shared Compose Multiplatform UI.
+
+**Key parts:**
+
+- `composeApp/src/commonMain`  
+  Shared UI elements and presentation logic written with Compose Multiplatform.
+
+- Platform-specific source sets:
+    - `androidMain` – Android-only integrations (Android SDK, permissions, etc.).
+    - `iosMain` – iOS-specific hooks if Compose views are embedded on iOS.
+
+This module shows how the SDK is **consumed** from an Android app and how shared UI is wired to the shared logic.
+
+### `/iosApp`
+
+`/iosApp` contains the **iOS sample application**.
+
+It shows how to:
+
+- Import the generated Kotlin framework into Xcode.
+- Wrap shared Kotlin view models into Swift observable objects.
+- Build SwiftUI screens that react to Kotlin Flows/StateFlows.
+
+This is the reference for **iOS integration** of the SDK.
+
+### `/shared`
+
+`/shared` is the **core SDK module**, shared between all targets.
+
+- `shared/src/commonMain`  
+  Contains the platform-agnostic core:
+    - Public SDK API (facades, use cases).
+    - Domain models.
+    - Business logic and state handling.
+    - Interfaces for platform-specific implementations.
+
+- Platform-specific folders (e.g. `androidMain`, `iosMain`)  
+  Used when shared code needs to call into platform APIs (secure storage, logging, etc.).
+
+In a production setup, this module would be published as:
+
+- **Android:** a library artifact (AAR / Maven).
+- **iOS:** an XCFramework / Swift Package.
